@@ -21,10 +21,7 @@ type calcStates struct {
 	CalcService *service.CalcService
 }
 
-func NewHandler(
-	ctx context.Context,
-	calcService *service.CalcService,
-) (http.Handler, error) {
+func NewHandler(ctx context.Context, calcService *service.CalcService) (http.Handler, error) {
 	serveMux := http.NewServeMux()
 
 	calcState := calcStates{
@@ -52,6 +49,11 @@ func Decorate(next http.Handler, ds ...Decorator) http.Handler {
 
 // Добавление вычисления арифметического выражения
 func (cs *calcStates) calculate(w http.ResponseWriter, r *http.Request) {
+	type Expression struct {
+		Id         string `json:"id"`
+		Expression string `json:"expression"`
+	}
+
 	defer r.Body.Close()
 
 	if !slices.Contains(r.Header["Content-Type"], "application/json") {
@@ -59,10 +61,6 @@ func (cs *calcStates) calculate(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	type Expression struct {
-		Id         string `json:"id"`
-		Expression string `json:"expression"`
-	}
 	var expr Expression
 	err := json.NewDecoder(r.Body).Decode(&expr)
 	if err != nil {
