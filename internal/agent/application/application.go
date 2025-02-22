@@ -7,10 +7,10 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/Vojan-Najov/daec/internal/agent/config"
-	"github.com/Vojan-Najov/daec/internal/http/client"
-	"github.com/Vojan-Najov/daec/internal/result"
-	"github.com/Vojan-Najov/daec/internal/task"
+	"github.com/neandrson/go-daev2/internal/agent/config"
+	"github.com/neandrson/go-daev2/internal/http/client"
+	"github.com/neandrson/go-daev2/internal/result"
+	"github.com/neandrson/go-daev2/internal/task"
 )
 
 type Application struct {
