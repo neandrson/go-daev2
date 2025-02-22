@@ -1,3 +1,3 @@
-module github.com/Vojan-Najov/daec
+module github.com/neandrson/go-daev2
 
-go 1.22.1
+go 1.23.5
