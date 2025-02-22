@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/Vojan-Najov/daec/internal/agent/application"
-	"github.com/Vojan-Najov/daec/internal/agent/config"
+	"github.com/neandrson/go-daev2/internal/agent/application"
+	"github.com/neandrson/go-daev2/internal/agent/config"
 )
 
 func main() {
