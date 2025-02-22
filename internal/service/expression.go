@@ -5,7 +5,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/Vojan-Najov/daec/pkg/rpn"
+	"github.com/neandrson/go-daev2/pkg/rpn"
 )
 
 const (
