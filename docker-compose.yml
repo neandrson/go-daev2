@@ -1,0 +1,63 @@
+version: "3.3"
+  
+services:
+  orchestrator:
+    build:
+      context: .
+      dockerfile: scripts/orchestrator/Dockerfile
+    container_name: orchestrator
+    networks:
+      - intnet
+    ports:
+      - "80:8081"
+    expose:
+      - "8081"
+    env_file:
+      - path: .env
+    environment:
+      - TIME_ADDITION_MS=${TIME_ADDITION_MS}
+      - TIME_SUBTRACTION_MS=${TIME_SUBTRACTION_MS}
+      - TIME_DIVISIONS_MS=${TIME_DIVISIONS_MS}
+      - TIME_MULTIPLICATIONS_MS=${TIME_MULTIPLICATIONS_MS}
+  agent1:
+    build:
+      context: .
+      dockerfile: scripts/agent/Dockerfile
+    container_name: agent1
+    networks:
+      - intnet
+    links:
+      - orchestrator
+    env_file:
+      - path: .env
+    environment:
+      - COMPUTING_POWER=${COMPUTING_POWER}
+  agent2:
+    build:
+      context: .
+      dockerfile: scripts/agent/Dockerfile
+    container_name: agent2
+    networks:
+      - intnet
+    links:
+      - orchestrator
+    env_file:
+      - path: .env
+    environment:
+      - COMPUTING_POWER=${COMPUTING_POWER}
+  agent3:
+    build:
+      context: .
+      dockerfile: scripts/agent/Dockerfile
+    container_name: agent3
+    networks:
+      - intnet
+    links:
+      - orchestrator
+    env_file:
+      - path: .env
+    environment:
+      - COMPUTING_POWER=${COMPUTING_POWER}
+
+networks:
+  intnet:
