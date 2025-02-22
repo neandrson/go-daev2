@@ -6,8 +6,8 @@ import (
 	"os"
 	"os/signal"
 
-	"github.com/Vojan-Najov/daec/internal/http/server"
-	"github.com/Vojan-Najov/daec/internal/orchestrator/config"
+	"github.com/neandrson/go-daev2/internal/http/server"
+	"github.com/neandrson/go-daev2/internal/orchestrator/config"
 )
 
 type Application struct {
