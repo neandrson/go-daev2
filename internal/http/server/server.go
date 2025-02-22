@@ -7,9 +7,9 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/Vojan-Najov/daec/internal/http/handler"
-	"github.com/Vojan-Najov/daec/internal/orchestrator/config"
-	"github.com/Vojan-Najov/daec/internal/service"
+	"github.com/neandrson/go-daev2/internal/http/handler"
+	"github.com/neandrson/go-daev2/internal/orchestrator/config"
+	"github.com/neandrson/go-daev2/internal/service"
 )
 
 func Run(
