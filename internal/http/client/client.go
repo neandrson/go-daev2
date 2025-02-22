@@ -10,8 +10,8 @@ import (
 	_ "os"
 	"time"
 
-	"github.com/Vojan-Najov/daec/internal/result"
-	"github.com/Vojan-Najov/daec/internal/task"
+	"github.com/neandrson/go-daev2/internal/result"
+	"github.com/neandrson/go-daev2/internal/task"
 )
 
 type Client struct {
