@@ -101,9 +101,7 @@ func (cs *CalcService) GetTask() *task.Task {
 	newtask := cs.tasks[0]
 	cs.tasks = cs.tasks[1:]
 
-	cs.timeoutsTable[newtask.ID] = timeout.NewTimeout(
-		5*time.Second + newtask.OperationTime,
-	)
+	cs.timeoutsTable[newtask.ID] = timeout.NewTimeout(5*time.Second + newtask.OperationTime)
 
 	go func(task task.Task) {
 		cs.locker.Lock()
