@@ -3,7 +3,7 @@ package stack_test
 import (
 	"testing"
 
-	"github.com/Vojan-Najov/daec/pkg/stack"
+	"github.com/neandrson/go-daev2/pkg/stack"
 )
 
 func TestStack(t *testing.T) {
