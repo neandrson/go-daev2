@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/Vojan-Najov/daec/internal/orchestrator/application"
-	"github.com/Vojan-Najov/daec/internal/orchestrator/config"
+	"github.com/neandrson/go-daev2/internal/orchestrator/application"
+	"github.com/neandrson/go-daev2/internal/orchestrator/config"
 )
 
 func main() {
