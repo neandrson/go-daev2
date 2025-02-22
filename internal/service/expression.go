@@ -101,7 +101,7 @@ func NewExpression(id, expr string) (*Expression, error) {
 		List:   list.New(),
 		ID:     id,
 		Status: StatusInProcess,
-		Result: rpn[0],
+		Result: rpn[len(rpn)],
 		Source: expr,
 	}
 	for _, val := range rpn {
