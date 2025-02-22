@@ -81,7 +81,7 @@ func NewExpression(id, expr string) (*Expression, error) {
 			ID:     id,
 			Status: StatusError,
 			Result: "",
-			Source: expr,
+			//Source: expr,
 		}
 		return &expression, err
 	}
@@ -92,7 +92,7 @@ func NewExpression(id, expr string) (*Expression, error) {
 			ID:     id,
 			Status: StatusDone,
 			Result: rpn[0],
-			Source: expr,
+			//Source: expr,
 		}
 		return &expression, nil
 	}
@@ -101,8 +101,8 @@ func NewExpression(id, expr string) (*Expression, error) {
 		List:   list.New(),
 		ID:     id,
 		Status: StatusInProcess,
-		Result: "",
-		Source: expr,
+		Result: rpn[0],
+		//Source: expr,
 	}
 	for _, val := range rpn {
 		if strings.Contains("-+*/", val) {
