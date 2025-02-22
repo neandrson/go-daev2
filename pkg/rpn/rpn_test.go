@@ -5,7 +5,7 @@ import (
 	"slices"
 	"testing"
 
-	"github.com/Vojan-Najov/daec/pkg/rpn"
+	"github.com/neandrson/go-daev2/pkg/rpn"
 )
 
 func TestRpn(t *testing.T) {
