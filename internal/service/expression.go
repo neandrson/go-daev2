@@ -28,24 +28,12 @@ type NumToken struct {
 	Value float64
 }
 
-func (num NumToken) Type() int {
-	return TokenTypeNumber
-}
-
 type OpToken struct {
 	Value string
 }
 
-func (num OpToken) Type() int {
-	return TokenTypeOperation
-}
-
 type TaskToken struct {
 	ID int64
-}
-
-func (num TaskToken) Type() int {
-	return TokenTypeTask
 }
 
 type Expression struct {
@@ -64,6 +52,25 @@ type ExpressionUnit struct {
 // Структура для ответа по запросу на endpoint expressions
 type ExpressionList struct {
 	Exprs []Expression `json:"expressions"`
+}
+
+// структура связывающая узел списка, в который нужно положить
+// результат вычисления, с ID выражения, которое хранит это список
+type ExprElement struct {
+	ID  string
+	Ptr *list.Element
+}
+
+func (num NumToken) Type() int {
+	return TokenTypeNumber
+}
+
+func (num OpToken) Type() int {
+	return TokenTypeOperation
+}
+
+func (num TaskToken) Type() int {
+	return TokenTypeTask
 }
 
 func NewExpression(id, expr string) (*Expression, error) {
@@ -109,11 +116,4 @@ func NewExpression(id, expr string) (*Expression, error) {
 		}
 	}
 	return &expression, nil
-}
-
-// структура связывающая узел списка, в который нужно положить
-// результат вычисления, с ID выражения, которое хранит это список
-type ExprElement struct {
-	ID  string
-	Ptr *list.Element
 }
