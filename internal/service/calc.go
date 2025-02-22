@@ -6,9 +6,9 @@ import (
 	"sync"
 	"time"
 
-	"github.com/Vojan-Najov/daec/internal/orchestrator/config"
-	"github.com/Vojan-Najov/daec/internal/task"
-	"github.com/Vojan-Najov/daec/pkg/timeout"
+	"github.com/neandrson/go-daev2/internal/orchestrator/config"
+	"github.com/neandrson/go-daev2/internal/task"
+	"github.com/neandrson/go-daev2/pkg/timeout"
 )
 
 type CalcService struct {
