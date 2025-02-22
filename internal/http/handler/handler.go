@@ -8,9 +8,9 @@ import (
 	"slices"
 	"strconv"
 
-	"github.com/Vojan-Najov/daec/internal/result"
-	"github.com/Vojan-Najov/daec/internal/service"
-	"github.com/Vojan-Najov/daec/internal/task"
+	"github.com/neandrson/go-daev2/internal/result"
+	"github.com/neandrson/go-daev2/internal/service"
+	"github.com/neandrson/go-daev2/internal/task"
 )
 
 // тип Decorator служит для добавления middleware к обработчикам
