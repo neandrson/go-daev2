@@ -4,6 +4,7 @@ package handler
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"slices"
 	"strconv"
@@ -153,4 +154,5 @@ func (cs *calcStates) receiveResult(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	fmt.Println(value)
 }
