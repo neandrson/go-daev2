@@ -71,11 +71,7 @@ func (app *Application) Run(ctx context.Context) int {
 	}
 }
 
-func runWorker(
-	tasks <-chan task.Task,
-	results chan<- result.Result,
-	ready chan<- struct{},
-) {
+func runWorker(tasks <-chan task.Task, results chan<- result.Result, ready chan<- struct{}) {
 	for {
 		ready <- struct{}{}
 		task, ok := <-tasks
