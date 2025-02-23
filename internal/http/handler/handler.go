@@ -4,7 +4,6 @@ package handler
 import (
 	"context"
 	"encoding/json"
-	"fmt"
 	"net/http"
 	"slices"
 	"strconv"
@@ -74,8 +73,9 @@ func (cs *calcStates) calculate(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	w.WriteHeader(http.StatusCreated)
-	w.Write([]byte(expr.Id))
+	w.WriteHeader(http.StatusOK)
+	//w.Write([]byte(expr.Id))
+
 }
 
 func (cs *calcStates) listAll(w http.ResponseWriter, r *http.Request) {
@@ -153,6 +153,5 @@ func (cs *calcStates) receiveResult(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusNotFound)
 		return
 	}
-
-	fmt.Println(value)
+	
 }
