@@ -73,6 +73,7 @@ func (client *Client) SendResult(result result.Result) {
 		return
 	}
 
+	fmt.Println(req)
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
@@ -81,5 +82,6 @@ func (client *Client) SendResult(result result.Result) {
 		//fmt.Fprintln(os.Stderr, err)
 		return
 	}
+	fmt.Println(resp)
 	defer resp.Body.Close()
 }
