@@ -7,6 +7,12 @@ import (
 	"strconv"
 )
 
+type Config struct {
+	ComputingPower int
+	Hostname       string
+	Port           int
+}
+
 const (
 	envErrorStr = "The COMPUTING_POWER environment variable is not set or has an incorrect value."
 )
@@ -23,12 +29,6 @@ func init() {
 		fmt.Fprintf(os.Stderr, "Incorrect port: %d\n", *port)
 		os.Exit(1)
 	}
-}
-
-type Config struct {
-	ComputingPower int
-	Hostname       string
-	Port           int
 }
 
 func NewConfigFromEnv() (*Config, error) {
