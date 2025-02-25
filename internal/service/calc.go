@@ -3,6 +3,7 @@ package service
 import (
 	"fmt"
 	"slices"
+	"strconv"
 	"sync"
 	"time"
 
@@ -48,7 +49,9 @@ func (cs *CalcService) AddExpression(id, expr string) error {
 	defer cs.locker.Unlock()
 
 	if _, found := cs.exprTable[id]; found {
-		return fmt.Errorf("not a unique ID: %q", id)
+		i, _ := strconv.Atoi(id)
+		i++
+		id = strconv.Itoa(i)
 	}
 
 	expression, err := NewExpression(id, expr)
