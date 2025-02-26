@@ -70,8 +70,8 @@ func (cs *calcStates) calculate(w http.ResponseWriter, r *http.Request) {
 
 	if len(expr.Id) == 0 {
 		expr.Id = "1"
-	} else if _, found := cs.CalcService.ser.exprTable[id]; found  {
-		id := cs.CalcService.CalcService.taskID + 1
+	} else if _, found := cs[expr.Id]; found {
+		id := cs.CalcService.taskID + 1
 		expr.Id = strconv.FormatFloat(id, 64)
 	}
 
@@ -151,7 +151,7 @@ func (cs *calcStates) receiveResult(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	value, err := strconv.ParseFloat(res.Value, 64)
+	value, err := strconv.ParseFloat(res.Value, 10)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusUnprocessableEntity)
 	}
