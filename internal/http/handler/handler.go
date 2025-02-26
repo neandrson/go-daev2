@@ -13,8 +13,6 @@ import (
 	"github.com/neandrson/go-daev2/internal/task"
 )
 
-var id int = 1
-
 // тип Decorator служит для добавления middleware к обработчикам
 type Decorator func(http.Handler) http.Handler
 
@@ -68,6 +66,13 @@ func (cs *calcStates) calculate(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
+	}
+
+	if len(expr.Id) == 0 {
+		expr.Id = "1"
+	} else if _, found := cs.CalcService.ser.exprTable[id]; found  {
+		id := cs.CalcService.CalcService.taskID + 1
+		expr.Id = strconv.FormatFloat(id, 64)
 	}
 
 	if err = cs.CalcService.AddExpression(expr.Id, expr.Expression); err != nil {
