@@ -38,9 +38,9 @@ func NewCalcService(cfg config.Config) *CalcService {
 }
 
 func (cs *CalcService) AddExpression(id, expr string) error {
-	if len(id) == 0 {
+	/*if len(id) == 0 {
 		return fmt.Errorf("empty ID")
-	}
+	}*/
 	if len(expr) == 0 {
 		return fmt.Errorf("empty expression")
 	}
