@@ -4,7 +4,9 @@ package handler
 import (
 	"context"
 	"encoding/json"
+	"log"
 	"net/http"
+	"os/exec"
 	"slices"
 	"strconv"
 
@@ -69,12 +71,12 @@ func (cs *calcStates) calculate(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if len(expr.Id) == 0 {
-		expr.Id = "1"
-	} else if _, found := cs[expr.Id]; found {
-		id := cs.CalcService.taskID + 1
-		expr.Id = strconv.FormatFloat(id, 64)
+		newUUID, err := exec.Command("uuidgen").Output()
+		if err != nil {
+			log.Fatal(err)
+		}
+		expr.Id = string(newUUID)
 	}
-
 	if err = cs.CalcService.AddExpression(expr.Id, expr.Expression); err != nil {
 		http.Error(w, err.Error(), http.StatusUnprocessableEntity)
 		return
