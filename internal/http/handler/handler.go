@@ -4,12 +4,11 @@ package handler
 import (
 	"context"
 	"encoding/json"
-	"log"
 	"net/http"
-	"os/exec"
 	"slices"
 	"strconv"
 
+	"github.com/google/uuid"
 	"github.com/neandrson/go-daev2/internal/result"
 	"github.com/neandrson/go-daev2/internal/service"
 	"github.com/neandrson/go-daev2/internal/task"
@@ -21,6 +20,11 @@ type Decorator func(http.Handler) http.Handler
 // объект для обработки запросов
 type calcStates struct {
 	CalcService *service.CalcService
+}
+
+type ExpressionTask struct {
+	Id         string `json:"id"`
+	Expression string `json:"expression"`
 }
 
 func NewHandler(ctx context.Context, calcService *service.CalcService) (http.Handler, error) {
@@ -51,11 +55,6 @@ func Decorate(next http.Handler, ds ...Decorator) http.Handler {
 
 // Добавление вычисления арифметического выражения
 func (cs *calcStates) calculate(w http.ResponseWriter, r *http.Request) {
-	type Expression struct {
-		Id         string `json:"id"`
-		Expression string `json:"expression"`
-	}
-
 	defer r.Body.Close()
 
 	if !slices.Contains(r.Header["Content-Type"], "application/json") {
@@ -63,20 +62,18 @@ func (cs *calcStates) calculate(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	var expr Expression
+	var expr ExpressionTask
 	err := json.NewDecoder(r.Body).Decode(&expr)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
-	if len(expr.Id) == 0 {
-		newUUID, err := exec.Command("uuidgen").Output()
-		if err != nil {
-			log.Fatal(err)
-		}
-		expr.Id = string(newUUID)
-	}
+	//if len(expr.Id) == 0 {
+	//increment := incrementer()
+
+	expr.Id = (uuid.New()).String()
+
 	if err = cs.CalcService.AddExpression(expr.Id, expr.Expression); err != nil {
 		http.Error(w, err.Error(), http.StatusUnprocessableEntity)
 		return
@@ -84,7 +81,16 @@ func (cs *calcStates) calculate(w http.ResponseWriter, r *http.Request) {
 
 	w.WriteHeader(http.StatusOK)
 	//w.Write([]byte(expr.Id))
-	json.NewEncoder(w).Encode(Expression{Id: expr.Id})
+	json.NewEncoder(w).Encode(ExpressionTask{Id: expr.Id})
+}
+
+func incrementer() func() int {
+	i := 0
+
+	return func() int {
+		i++
+		return i
+	}
 }
 
 func (cs *calcStates) listAll(w http.ResponseWriter, r *http.Request) {
