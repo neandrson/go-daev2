@@ -3,7 +3,6 @@ package service
 import (
 	"fmt"
 	"slices"
-	"strconv"
 	"sync"
 	"time"
 
@@ -48,11 +47,11 @@ func (cs *CalcService) AddExpression(id, expr string) error {
 	cs.locker.Lock()
 	defer cs.locker.Unlock()
 
-	if _, found := cs.exprTable[id]; found {
+	/*if _, found := cs.exprTable[id]; found {
 		i, _ := strconv.Atoi(id)
 		i++
 		id = strconv.Itoa(i)
-	}
+	}*/
 
 	expression, err := NewExpression(id, expr)
 	cs.exprTable[id] = expression
