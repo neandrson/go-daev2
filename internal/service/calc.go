@@ -37,21 +37,15 @@ func NewCalcService(cfg config.Config) *CalcService {
 }
 
 func (cs *CalcService) AddExpression(id, expr string) error {
-	/*if len(id) == 0 {
+	if len(id) == 0 {
 		return fmt.Errorf("empty ID")
-	}*/
+	}
 	if len(expr) == 0 {
 		return fmt.Errorf("empty expression")
 	}
 
 	cs.locker.Lock()
 	defer cs.locker.Unlock()
-
-	/*if _, found := cs.exprTable[id]; found {
-		i, _ := strconv.Atoi(id)
-		i++
-		id = strconv.Itoa(i)
-	}*/
 
 	expression, err := NewExpression(id, expr)
 	cs.exprTable[id] = expression
