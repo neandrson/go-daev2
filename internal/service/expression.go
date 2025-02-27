@@ -76,14 +76,13 @@ func (num TaskToken) Type() int {
 
 func NewExpression(id, expr string) (*Expression, error) {
 	rpn, err := rpn.NewRPN(expr)
-	//var res result.Result
 	if err != nil {
 		expression := Expression{
 			List:   list.New(),
 			ID:     id,
 			Status: StatusError,
 			Result: "",
-			Source: expr,
+			//Source: expr,
 		}
 		return &expression, err
 	}
@@ -94,7 +93,7 @@ func NewExpression(id, expr string) (*Expression, error) {
 			ID:     id,
 			Status: StatusDone,
 			Result: rpn[0],
-			Source: expr,
+			//Source: expr,
 		}
 		return &expression, nil
 	}
@@ -104,7 +103,7 @@ func NewExpression(id, expr string) (*Expression, error) {
 		ID:     id,
 		Status: StatusInProcess,
 		Result: "",
-		Source: expr,
+		//Source: expr,
 	}
 	for _, val := range rpn {
 		if strings.Contains("-+*/", val) {
