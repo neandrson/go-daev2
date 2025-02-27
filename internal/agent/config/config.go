@@ -32,7 +32,7 @@ func init() {
 }
 
 func NewConfigFromEnv() (*Config, error) {
-	os.Setenv("COMPUTING_POWER", "3")
+	//os.Setenv("COMPUTING_POWER", "3")
 	cp, err := strconv.Atoi(os.Getenv("COMPUTING_POWER"))
 	if err != nil || cp <= 0 {
 		return nil, fmt.Errorf(envErrorStr)
