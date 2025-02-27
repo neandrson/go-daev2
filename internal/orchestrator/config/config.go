@@ -18,10 +18,10 @@ type Config struct {
 }
 
 func NewConfigFromEnv() (*Config, error) {
-	os.Setenv("TIME_ADDITION_MS", "1000")
-	os.Setenv("TIME_SUBTRACTION_MS", "1000")
-	os.Setenv("TIME_MULTIPLICATIONS_MS", "1000")
-	os.Setenv("TIME_DIVISIONS_MS", "1000")
+	//os.Setenv("TIME_ADDITION_MS", "1000")
+	//os.Setenv("TIME_SUBTRACTION_MS", "1000")
+	//os.Setenv("TIME_MULTIPLICATIONS_MS", "1000")
+	//os.Setenv("TIME_DIVISIONS_MS", "1000")
 	at, err := time.ParseDuration(os.Getenv("TIME_ADDITION_MS") + "ms")
 	if err != nil || at < 0 {
 		return nil, fmt.Errorf(errMsgFmt, "TIME_ADDITION_MS")
