@@ -63,6 +63,7 @@ func (cs *calcStates) calculate(w http.ResponseWriter, r *http.Request) {
 	}
 
 	var expr ExpressionTask
+
 	err := json.NewDecoder(r.Body).Decode(&expr)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
