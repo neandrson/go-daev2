@@ -85,15 +85,6 @@ func (cs *calcStates) calculate(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(ExpressionTask{Id: expr.Id})
 }
 
-func incrementer() func() int {
-	i := 0
-
-	return func() int {
-		i++
-		return i
-	}
-}
-
 func (cs *calcStates) listAll(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 
