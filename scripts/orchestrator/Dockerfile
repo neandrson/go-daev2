@@ -8,8 +8,8 @@ ENV PATH $PATH:/usr/local/go/bin
 ENV GOPATH /go
 #ENV PATH $PATH:/go/bin
 
-COPY . /go-daev
-WORKDIR /go-daev
+COPY . /go-daev2
+WORKDIR /go-daev2
 
 #CMD go run -race cmd/orchestrator/main.go
 CMD go run cmd/orchestrator/main.go
