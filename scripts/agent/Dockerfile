@@ -8,8 +8,8 @@ ENV PATH $PATH:/usr/local/go/bin
 ENV GOPATH /go
 ENV PATH $PATH:/go/bin
 
-COPY . /go-daev
-WORKDIR /go-daev
+COPY . /go-daev2
+WORKDIR /go-daev2
 
 #CMD go run -race cmd/agent/main.go -h orchestrator -p 8081
 CMD go run cmd/agent/main.go -h orchestrator -p 8081
