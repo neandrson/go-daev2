@@ -42,7 +42,7 @@ type Expression struct {
 	ID     string `json:"id"`
 	Status string `json:"status"`
 	Result string `json:"result"`
-	Source string `json:"source"`
+	//	Source string       `json:"source"`
 }
 
 // Структура для ответа по запросу на endpoint expressions/{id}
@@ -82,7 +82,7 @@ func NewExpression(id, expr string) (*Expression, error) {
 			ID:     id,
 			Status: StatusError,
 			Result: "",
-			//Source: expr,
+			//			Source: expr,
 		}
 		return &expression, err
 	}
@@ -93,7 +93,7 @@ func NewExpression(id, expr string) (*Expression, error) {
 			ID:     id,
 			Status: StatusDone,
 			Result: rpn[0],
-			//Source: expr,
+			//			//Source: expr,
 		}
 		return &expression, nil
 	}
@@ -103,7 +103,7 @@ func NewExpression(id, expr string) (*Expression, error) {
 		ID:     id,
 		Status: StatusInProcess,
 		Result: "",
-		//Source: expr,
+		//		Source: expr,
 	}
 	for _, val := range rpn {
 		if strings.Contains("-+*/", val) {
