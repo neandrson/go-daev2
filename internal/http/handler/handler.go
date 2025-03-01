@@ -151,11 +151,15 @@ func (cs *calcStates) receiveResult(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	value, err := strconv.ParseFloat(res.Value, 10)
+	value, err := strconv.ParseFloat(res.Value, 64)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusUnprocessableEntity)
 	}
 
+	if res.ID == 0 {
+		http.Error(w, "no ID", http.StatusUnprocessableEntity)
+		return
+	}
 	if err = cs.CalcService.PutResult(res.ID, value); err != nil {
 		http.Error(w, err.Error(), http.StatusNotFound)
 		return
