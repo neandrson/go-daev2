@@ -71,10 +71,7 @@ func (cs *calcStates) calculate(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	//if len(expr.Id) == 0 {
-	//increment := incrementer()
-	//i := id.RangeSequencer(0, 9999, 1)
-	expr.Id = fmt.Sprintf("%d", time.Now().UnixNano()) //(uuid.New()).String()
+	expr.Id = fmt.Sprintf("%d", time.Now().UnixNano())
 
 	if err = cs.CalcService.AddExpression(expr.Id, expr.Expression); err != nil {
 		http.Error(w, err.Error(), http.StatusUnprocessableEntity)
