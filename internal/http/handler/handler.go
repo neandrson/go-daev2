@@ -77,8 +77,8 @@ func (cs *calcStates) calculate(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.WriteHeader(http.StatusOK)
-	//w.Write([]byte(expr.Id))
-	json.NewEncoder(w).Encode(ExpressionTask{Id: expr.Id})
+	w.Write([]byte(expr.Id))
+	//json.NewEncoder(w).Encode(ExpressionTask{Id: expr.Id})
 }
 
 func (cs *calcStates) listAll(w http.ResponseWriter, r *http.Request) {
