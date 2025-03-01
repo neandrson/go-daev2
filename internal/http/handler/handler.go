@@ -4,11 +4,12 @@ package handler
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"slices"
 	"strconv"
+	"time"
 
-	"github.com/google/uuid"
 	"github.com/neandrson/go-daev2/internal/result"
 	"github.com/neandrson/go-daev2/internal/service"
 	"github.com/neandrson/go-daev2/internal/task"
@@ -72,8 +73,8 @@ func (cs *calcStates) calculate(w http.ResponseWriter, r *http.Request) {
 
 	//if len(expr.Id) == 0 {
 	//increment := incrementer()
-
-	expr.Id = (uuid.New()).String()
+	//i := id.RangeSequencer(0, 9999, 1)
+	expr.Id = fmt.Sprintf("%d", time.Now().UnixNano()) //(uuid.New()).String()
 
 	if err = cs.CalcService.AddExpression(expr.Id, expr.Expression); err != nil {
 		http.Error(w, err.Error(), http.StatusUnprocessableEntity)
@@ -156,10 +157,6 @@ func (cs *calcStates) receiveResult(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusUnprocessableEntity)
 	}
 
-	if res.ID == 0 {
-		http.Error(w, "no ID", http.StatusUnprocessableEntity)
-		return
-	}
 	if err = cs.CalcService.PutResult(res.ID, value); err != nil {
 		http.Error(w, err.Error(), http.StatusNotFound)
 		return
