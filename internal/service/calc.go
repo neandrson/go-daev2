@@ -132,6 +132,7 @@ func (cs *CalcService) PutResult(id int64, value float64) error {
 	}
 
 	_, found = cs.taskTable[id]
+	fmt.Println(cs.taskTable)
 	if !found {
 		return fmt.Errorf("Task id %d not found", id)
 	}
