@@ -4,9 +4,11 @@ package handler
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"slices"
 	"strconv"
+	"time"
 
 	"github.com/neandrson/go-daev2/internal/result"
 	"github.com/neandrson/go-daev2/internal/service"
@@ -69,7 +71,7 @@ func (cs *calcStates) calculate(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	//expr.Id = fmt.Sprintf("%d", time.Now().UnixNano())
+	expr.Id = fmt.Sprintf("%d", time.Now().UnixNano())
 
 	if err = cs.CalcService.AddExpression(expr.Id, expr.Expression); err != nil {
 		http.Error(w, err.Error(), http.StatusUnprocessableEntity)
