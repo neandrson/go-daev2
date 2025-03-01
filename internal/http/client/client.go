@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"os"
 
 	_ "os"
 	"time"
@@ -24,7 +25,7 @@ func (client *Client) GetTask() *task.Task {
 	url := fmt.Sprintf("http://%s:%d/internal/task", client.Hostname, client.Port)
 	req, err := http.NewRequest(http.MethodGet, url, nil)
 	if err != nil {
-		//fmt.Fprintln(os.Stderr, err)
+		fmt.Fprintln(os.Stderr, err)
 		return nil
 	}
 
