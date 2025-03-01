@@ -12,7 +12,7 @@ import (
 func main() {
 	cfg, err := config.NewConfigFromEnv()
 	if err != nil {
-		fmt.Fprintln(os.Stderr, err)
+		fmt.Fprintln(os.Stderr, "Error: %v\n", err)
 		os.Exit(1)
 	}
 
