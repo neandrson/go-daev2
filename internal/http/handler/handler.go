@@ -117,10 +117,10 @@ func (cs *calcStates) sendTask(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 
 	newTask := cs.CalcService.GetTask()
-	/*if newTask == nil {
+	if newTask == nil {
 		http.Error(w, "no tasks", http.StatusNotFound)
 		return
-	}*/
+	}
 
 	answer := struct {
 		Task *task.Task `json:"task"`
