@@ -34,7 +34,7 @@ func (client *Client) GetTask() *task.Task {
 
 	resp, err := client.Do(req.WithContext(ctx))
 	if err != nil {
-		//fmt.Fprintln(os.Stderr, err)
+		fmt.Fprintln(os.Stderr, err)
 		time.Sleep(500)
 		return nil
 	}
@@ -50,7 +50,7 @@ func (client *Client) GetTask() *task.Task {
 
 	err = json.NewDecoder(resp.Body).Decode(&answer)
 	if err != nil {
-		//fmt.Fprintln(os.Stderr, err)
+		fmt.Fprintln(os.Stderr, err)
 		return nil
 	}
 
