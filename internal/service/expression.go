@@ -5,7 +5,6 @@ import (
 	"strconv"
 	"strings"
 
-	//"github.com/neandrson/go-daev2/internal/result"
 	"github.com/neandrson/go-daev2/pkg/rpn"
 )
 
@@ -29,12 +28,24 @@ type NumToken struct {
 	Value float64
 }
 
+func (num NumToken) Type() int {
+	return TokenTypeNumber
+}
+
 type OpToken struct {
 	Value string
 }
 
+func (num OpToken) Type() int {
+	return TokenTypeOperation
+}
+
 type TaskToken struct {
 	ID int64
+}
+
+func (num TaskToken) Type() int {
+	return TokenTypeTask
 }
 
 type Expression struct {
@@ -42,7 +53,7 @@ type Expression struct {
 	ID     string `json:"id"`
 	Status string `json:"status"`
 	Result string `json:"result"`
-	//	Source string       `json:"source"`
+	Source string `json:"source"`
 }
 
 // Структура для ответа по запросу на endpoint expressions/{id}
@@ -55,25 +66,6 @@ type ExpressionList struct {
 	Exprs []Expression `json:"expressions"`
 }
 
-// структура связывающая узел списка, в который нужно положить
-// результат вычисления, с ID выражения, которое хранит это список
-type ExprElement struct {
-	ID  string
-	Ptr *list.Element
-}
-
-func (num NumToken) Type() int {
-	return TokenTypeNumber
-}
-
-func (num OpToken) Type() int {
-	return TokenTypeOperation
-}
-
-func (num TaskToken) Type() int {
-	return TokenTypeTask
-}
-
 func NewExpression(id, expr string) (*Expression, error) {
 	rpn, err := rpn.NewRPN(expr)
 	if err != nil {
@@ -82,7 +74,7 @@ func NewExpression(id, expr string) (*Expression, error) {
 			ID:     id,
 			Status: StatusError,
 			Result: "",
-			//			Source: expr,
+			Source: expr,
 		}
 		return &expression, err
 	}
@@ -93,7 +85,7 @@ func NewExpression(id, expr string) (*Expression, error) {
 			ID:     id,
 			Status: StatusDone,
 			Result: rpn[0],
-			//			//Source: expr,
+			Source: expr,
 		}
 		return &expression, nil
 	}
@@ -103,13 +95,13 @@ func NewExpression(id, expr string) (*Expression, error) {
 		ID:     id,
 		Status: StatusInProcess,
 		Result: "",
-		//		Source: expr,
+		Source: expr,
 	}
 	for _, val := range rpn {
 		if strings.Contains("-+*/", val) {
 			expression.PushBack(OpToken{val})
 		} else {
-			num, err := strconv.ParseFloat(val, 64)
+			num, err := strconv.ParseFloat(val, 10)
 			if err != nil {
 				return nil, err
 			}
@@ -117,4 +109,11 @@ func NewExpression(id, expr string) (*Expression, error) {
 		}
 	}
 	return &expression, nil
+}
+
+// структура связывающая узел списка, в который нужно положить
+// результат вычисления, с ID выражения, которое хранит это список
+type ExprElement struct {
+	ID  string
+	Ptr *list.Element
 }
