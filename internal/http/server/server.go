@@ -12,7 +12,11 @@ import (
 	"github.com/neandrson/go-daev2/internal/service"
 )
 
-func Run(ctx context.Context, logger *log.Logger, cfg config.Config) (func(context.Context) error, error) {
+func Run(
+	ctx context.Context,
+	logger *log.Logger,
+	cfg config.Config,
+) (func(context.Context) error, error) {
 	calcService := service.NewCalcService(cfg)
 
 	muxHandler, err := newMuxHandler(ctx, logger, calcService)
@@ -33,7 +37,11 @@ func Run(ctx context.Context, logger *log.Logger, cfg config.Config) (func(conte
 
 }
 
-func newMuxHandler(ctx context.Context, logger *log.Logger, calcService *service.CalcService) (http.Handler, error) {
+func newMuxHandler(
+	ctx context.Context,
+	logger *log.Logger,
+	calcService *service.CalcService,
+) (http.Handler, error) {
 	muxHandler, err := handler.NewHandler(ctx, calcService)
 	if err != nil {
 		return nil, fmt.Errorf("handler initialization error: %w", err)
@@ -46,7 +54,9 @@ func newMuxHandler(ctx context.Context, logger *log.Logger, calcService *service
 }
 
 // middleware для логированя запросов
-func loggingMiddleware(logger *log.Logger) func(next http.Handler) http.Handler {
+func loggingMiddleware(
+	logger *log.Logger,
+) func(next http.Handler) http.Handler {
 	return func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			start := time.Now()
@@ -59,7 +69,12 @@ func loggingMiddleware(logger *log.Logger) func(next http.Handler) http.Handler 
 				return
 			}
 			duration := time.Since(start)
-			logger.Printf("HTTP request - method: %s, path: %s, duration: %d\n", r.Method, r.URL.Path, duration)
+			logger.Printf(
+				"HTTP request - method: %s, path: %s, duration: %d\n",
+				r.Method,
+				r.URL.Path,
+				duration,
+			)
 		})
 	}
 }
