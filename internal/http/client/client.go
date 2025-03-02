@@ -6,8 +6,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
-	"os"
-
 	_ "os"
 	"time"
 
@@ -25,7 +23,7 @@ func (client *Client) GetTask() *task.Task {
 	url := fmt.Sprintf("http://%s:%d/internal/task", client.Hostname, client.Port)
 	req, err := http.NewRequest(http.MethodGet, url, nil)
 	if err != nil {
-		fmt.Fprintln(os.Stderr, err)
+		// fmt.Fprintln(os.Stderr, err)
 		return nil
 	}
 
@@ -34,7 +32,7 @@ func (client *Client) GetTask() *task.Task {
 
 	resp, err := client.Do(req.WithContext(ctx))
 	if err != nil {
-		fmt.Fprintln(os.Stderr, err)
+		// fmt.Fprintln(os.Stderr, err)
 		time.Sleep(500)
 		return nil
 	}
@@ -50,7 +48,7 @@ func (client *Client) GetTask() *task.Task {
 
 	err = json.NewDecoder(resp.Body).Decode(&answer)
 	if err != nil {
-		fmt.Fprintln(os.Stderr, err)
+		// fmt.Fprintln(os.Stderr, err)
 		return nil
 	}
 
@@ -63,26 +61,24 @@ func (client *Client) SendResult(result result.Result) {
 	encoder.SetIndent("", "    ")
 	err := encoder.Encode(result)
 	if err != nil {
-		//fmt.Fprintln(os.Stderr, err)
+		// fmt.Fprintln(os.Stderr, err)
 		return
 	}
 
 	url := fmt.Sprintf("http://%s:%d/internal/task", client.Hostname, client.Port)
 	req, err := http.NewRequest(http.MethodPost, url, &buf)
 	if err != nil {
-		//fmt.Fprintln(os.Stderr, err)
+		// fmt.Fprintln(os.Stderr, err)
 		return
 	}
 
-	//fmt.Println(req)
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
 	resp, err := client.Do(req.WithContext(ctx))
 	if err != nil {
-		//fmt.Fprintln(os.Stderr, err)
+		// fmt.Fprintln(os.Stderr, err)
 		return
 	}
-	//fmt.Println(resp)
 	defer resp.Body.Close()
 }
