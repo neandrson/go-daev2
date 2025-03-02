@@ -47,6 +47,10 @@ func (cs *CalcService) AddExpression(id, expr string) error {
 	cs.locker.Lock()
 	defer cs.locker.Unlock()
 
+	if _, found := cs.exprTable[id]; found {
+		return fmt.Errorf("not a unique ID: %q", id)
+	}
+
 	expression, err := NewExpression(id, expr)
 	cs.exprTable[id] = expression
 	if err == nil && expression.Status == StatusInProcess {
@@ -90,7 +94,6 @@ func (cs *CalcService) FindById(id string) (*ExpressionUnit, error) {
 func (cs *CalcService) GetTask() *task.Task {
 	cs.locker.Lock()
 	defer cs.locker.Unlock()
-
 	if len(cs.tasks) == 0 {
 		return nil
 	}
@@ -98,7 +101,9 @@ func (cs *CalcService) GetTask() *task.Task {
 	newtask := cs.tasks[0]
 	cs.tasks = cs.tasks[1:]
 
-	cs.timeoutsTable[newtask.ID] = timeout.NewTimeout(5*time.Second + newtask.OperationTime)
+	cs.timeoutsTable[newtask.ID] = timeout.NewTimeout(
+		5*time.Second + newtask.OperationTime,
+	)
 
 	go func(task task.Task) {
 		cs.locker.Lock()
