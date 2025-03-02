@@ -23,11 +23,6 @@ type calcStates struct {
 	CalcService *service.CalcService
 }
 
-type ExpressionTask struct {
-	Id         string `json:"id"`
-	Expression string `json:"expression"`
-}
-
 func NewHandler(ctx context.Context, calcService *service.CalcService) (http.Handler, error) {
 	serveMux := http.NewServeMux()
 
@@ -63,8 +58,11 @@ func (cs *calcStates) calculate(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	var expr ExpressionTask
-
+	type Expression struct {
+		Id         string `json:"id"`
+		Expression string `json:"expression"`
+	}
+	var expr Expression
 	err := json.NewDecoder(r.Body).Decode(&expr)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -78,9 +76,8 @@ func (cs *calcStates) calculate(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	w.WriteHeader(http.StatusOK)
-	w.Write([]byte(expr.Id))
-	//json.NewEncoder(w).Encode(ExpressionTask{Id: expr.Id})
+	w.WriteHeader(http.StatusCreated)
+	json.NewDecoder(w).Decode(&expr.Id)
 }
 
 func (cs *calcStates) listAll(w http.ResponseWriter, r *http.Request) {
@@ -158,5 +155,4 @@ func (cs *calcStates) receiveResult(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusNotFound)
 		return
 	}
-
 }
