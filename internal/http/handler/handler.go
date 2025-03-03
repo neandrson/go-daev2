@@ -57,10 +57,7 @@ func (cs *calcStates) calculate(w http.ResponseWriter, r *http.Request) {
 	}
 
 	var expr Expression
-	exprTask := map[string]string{
-		"Id":         expr.Id,
-		"Expression": expr.Expression,
-	}
+	exprTask := map[string]string{}
 
 	if !slices.Contains(r.Header["Content-Type"], "application/json") {
 		http.Error(w, "Incorrect header", http.StatusUnprocessableEntity)
@@ -72,14 +69,15 @@ func (cs *calcStates) calculate(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	if len(expr.Id) != 0 {
+
+	for {
+		//if len(expr.Id) == 0 {
 		_, found := exprTask[expr.Id]
 		if found {
-			i, _ := strconv.Atoi(expr.Id)
-			expr.Id = string(i + 1)
+			exprTask[string(len(exprTask)+1)] = expr.Expression
+			expr.Id = string(len(exprTask)+1)
+			break
 		}
-	} else {
-		expr.Id = "1"
 	}
 
 	//expr.Id = fmt.Sprintf("%d", time.Now().UnixNano())
