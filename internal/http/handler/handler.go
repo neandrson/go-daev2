@@ -4,9 +4,11 @@ package handler
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"slices"
 	"strconv"
+	"time"
 
 	"github.com/neandrson/go-daev2/internal/result"
 	"github.com/neandrson/go-daev2/internal/service"
@@ -18,13 +20,17 @@ type Decorator func(http.Handler) http.Handler
 
 // объект для обработки запросов
 type calcStates struct {
-	CalcService *service.CalcService
+	CalcService   *service.CalcService
+	ClientGetTask *Client
 }
 
-func NewHandler(
-	ctx context.Context,
-	calcService *service.CalcService,
-) (http.Handler, error) {
+type Client struct {
+	http.Client
+	Hostname string
+	Port     int
+}
+
+func NewHandler(ctx context.Context, calcService *service.CalcService) (http.Handler, error) {
 	serveMux := http.NewServeMux()
 
 	calcState := calcStates{
@@ -113,7 +119,7 @@ func (cs *calcStates) listByID(w http.ResponseWriter, r *http.Request) {
 func (cs *calcStates) sendTask(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 
-	newTask := cs.CalcService.GetTask()
+	newTask := cs.GetTask() //cs.CalcService.GetTask()
 	if newTask == nil {
 		http.Error(w, "no tasks", http.StatusNotFound)
 		return
@@ -132,6 +138,42 @@ func (cs *calcStates) sendTask(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
+}
+
+func (cs *calcStates) GetTask() *task.Task {
+	url := fmt.Sprintf("http://%s:%d/internal/task", cs.ClientGetTask.Hostname, cs.ClientGetTask.Port)
+	req, err := http.NewRequest(http.MethodGet, url, nil)
+	if err != nil {
+		// fmt.Fprintln(os.Stderr, err)
+		return nil
+	}
+
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	resp, err := cs.ClientGetTask.Do(req.WithContext(ctx))
+	if err != nil {
+		// fmt.Fprintln(os.Stderr, err)
+		time.Sleep(500)
+		return nil
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK {
+		return nil
+	}
+
+	answer := struct {
+		Task task.Task `json:"task"`
+	}{}
+
+	err = json.NewDecoder(resp.Body).Decode(&answer)
+	if err != nil {
+		// fmt.Fprintln(os.Stderr, err)
+		return nil
+	}
+
+	return &answer.Task
 }
 
 func (cs *calcStates) receiveResult(w http.ResponseWriter, r *http.Request) {
