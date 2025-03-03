@@ -46,9 +46,7 @@ func newMuxHandler(ctx context.Context, logger *log.Logger, calcService *service
 }
 
 // middleware для логированя запросов
-func loggingMiddleware(
-	logger *log.Logger,
-) func(next http.Handler) http.Handler {
+func loggingMiddleware(logger *log.Logger) func(next http.Handler) http.Handler {
 	return func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			start := time.Now()
