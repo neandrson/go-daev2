@@ -77,7 +77,7 @@ func (cs *calcStates) calculate(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.WriteHeader(http.StatusCreated)
-	json.NewDecoder(w).Decode(&expr.Id)
+	//json.NewDecoder(w).Decode(&expr.Id)
 }
 
 func (cs *calcStates) listAll(w http.ResponseWriter, r *http.Request) {
