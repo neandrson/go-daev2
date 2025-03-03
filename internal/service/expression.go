@@ -108,7 +108,7 @@ func NewExpression(id, expr string) (*Expression, error) {
 		if strings.Contains("-+*/", val) {
 			expression.PushBack(OpToken{val})
 		} else {
-			num, err := strconv.ParseFloat(val, 10)
+			num, err := strconv.ParseFloat(val, 64)
 			if err != nil {
 				return nil, err
 			}
