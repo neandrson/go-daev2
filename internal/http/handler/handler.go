@@ -4,11 +4,9 @@ package handler
 import (
 	"context"
 	"encoding/json"
-	"fmt"
 	"net/http"
 	"slices"
 	"strconv"
-	"time"
 
 	"github.com/neandrson/go-daev2/internal/result"
 	"github.com/neandrson/go-daev2/internal/service"
@@ -23,7 +21,10 @@ type calcStates struct {
 	CalcService *service.CalcService
 }
 
-func NewHandler(ctx context.Context, calcService *service.CalcService) (http.Handler, error) {
+func NewHandler(
+	ctx context.Context,
+	calcService *service.CalcService,
+) (http.Handler, error) {
 	serveMux := http.NewServeMux()
 
 	calcState := calcStates{
@@ -53,16 +54,15 @@ func Decorate(next http.Handler, ds ...Decorator) http.Handler {
 func (cs *calcStates) calculate(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 
-	type Expression struct {
-		Id         string `json:"id"`
-		Expression string `json:"expression"`
-	}
-
 	if !slices.Contains(r.Header["Content-Type"], "application/json") {
 		http.Error(w, "Incorrect header", http.StatusUnprocessableEntity)
 		return
 	}
 
+	type Expression struct {
+		Id         string `json:"id"`
+		Expression string `json:"expression"`
+	}
 	var expr Expression
 	err := json.NewDecoder(r.Body).Decode(&expr)
 	if err != nil {
@@ -70,30 +70,12 @@ func (cs *calcStates) calculate(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	//for {
-	/*if len(expr.Id) == 0 {
-		_, found := ExprTask[expr.Id]
-		if found {
-			expr.Id = strconv.Itoa(len(ExprTask) + 1)
-			ExprTask[expr.Id] = expr.Expression
-		} else {
-			expr.Id = strconv.Itoa(len(ExprTask))
-			ExprTask[expr.Id] = expr.Expression
-		}
-	} else {
-		expr.Id = strconv.Itoa(len(ExprTask) + 1)
-	}*/
-
-	expr.Id = fmt.Sprintf("%d", time.Now().UnixNano())
-
 	if err = cs.CalcService.AddExpression(expr.Id, expr.Expression); err != nil {
 		http.Error(w, err.Error(), http.StatusUnprocessableEntity)
 		return
 	}
 
-	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusCreated)
-	json.NewEncoder(w).Encode(&expr.Id)
 }
 
 func (cs *calcStates) listAll(w http.ResponseWriter, r *http.Request) {
