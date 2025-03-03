@@ -4,11 +4,9 @@ package handler
 import (
 	"context"
 	"encoding/json"
-	"fmt"
 	"net/http"
 	"slices"
 	"strconv"
-	"time"
 
 	"github.com/neandrson/go-daev2/internal/result"
 	"github.com/neandrson/go-daev2/internal/service"
@@ -53,23 +51,38 @@ func Decorate(next http.Handler, ds ...Decorator) http.Handler {
 func (cs *calcStates) calculate(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 
+	type Expression struct {
+		Id         string `json:"id"`
+		Expression string `json:"expression"`
+	}
+
+	var expr Expression
+	exprTask := map[string]string{
+		"Id":         expr.Id,
+		"Expression": expr.Expression,
+	}
+
 	if !slices.Contains(r.Header["Content-Type"], "application/json") {
 		http.Error(w, "Incorrect header", http.StatusUnprocessableEntity)
 		return
 	}
 
-	type Expression struct {
-		Id         string `json:"id"`
-		Expression string `json:"expression"`
-	}
-	var expr Expression
 	err := json.NewDecoder(r.Body).Decode(&expr)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
+	if len(expr.Id) != 0 {
+		_, found := exprTask[expr.Id]
+		if found {
+			i, _ := strconv.Atoi(expr.Id)
+			expr.Id = string(i + 1)
+		}
+	} else {
+		expr.Id = "1"
+	}
 
-	expr.Id = fmt.Sprintf("%d", time.Now().UnixNano())
+	//expr.Id = fmt.Sprintf("%d", time.Now().UnixNano())
 
 	if err = cs.CalcService.AddExpression(expr.Id, expr.Expression); err != nil {
 		http.Error(w, err.Error(), http.StatusUnprocessableEntity)
