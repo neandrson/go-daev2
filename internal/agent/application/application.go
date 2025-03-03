@@ -24,7 +24,7 @@ type Application struct {
 var ops map[string]func(float64, float64) float64
 
 func init() {
-	ops := make(map[string]func(float64, float64) float64)
+	ops = make(map[string]func(float64, float64) float64)
 	ops["+"] = addition
 	ops["-"] = subtraction
 	ops["*"] = multiplication
@@ -71,7 +71,11 @@ func (app *Application) Run(ctx context.Context) int {
 	}
 }
 
-func runWorker(tasks <-chan task.Task, results chan<- result.Result, ready chan<- struct{}) {
+func runWorker(
+	tasks <-chan task.Task,
+	results chan<- result.Result,
+	ready chan<- struct{},
+) {
 	for {
 		ready <- struct{}{}
 		task, ok := <-tasks
