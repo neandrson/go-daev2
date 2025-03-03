@@ -20,8 +20,9 @@ func init() {
 		*hostname = "localhost"
 	}
 	if *port <= 0 {
-		fmt.Fprintf(os.Stderr, "Incorrect port: %d\n", *port)
-		os.Exit(1)
+		//fmt.Fprintf(os.Stderr, "Incorrect port: %d\n", *port)
+		//os.Exit(1)
+		*port = 8081
 	}
 }
 
