@@ -24,7 +24,7 @@ type Application struct {
 var ops map[string]func(float64, float64) float64
 
 func init() {
-	ops = make(map[string]func(float64, float64) float64)
+	ops := make(map[string]func(float64, float64) float64)
 	ops["+"] = addition
 	ops["-"] = subtraction
 	ops["*"] = multiplication
