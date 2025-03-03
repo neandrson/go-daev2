@@ -16,7 +16,8 @@ func main() {
 		os.Exit(1)
 	}
 
+	ctx := context.Background()
 	app := application.NewApplication(cfg)
-	exitCode := app.Run(context.Background())
+	exitCode := app.Run(ctx)
 	os.Exit(exitCode)
 }
