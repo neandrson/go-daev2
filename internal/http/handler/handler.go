@@ -21,6 +21,11 @@ type calcStates struct {
 	CalcService *service.CalcService
 }
 
+type ExpressionTask struct {
+	Id         string `json:"id"`
+	Expression string `json:"expression"`
+}
+
 func NewHandler(ctx context.Context, calcService *service.CalcService) (http.Handler, error) {
 	serveMux := http.NewServeMux()
 
@@ -50,14 +55,9 @@ func Decorate(next http.Handler, ds ...Decorator) http.Handler {
 // Добавление вычисления арифметического выражения
 func (cs *calcStates) calculate(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
-
-	type Expression struct {
-		Id         string `json:"id"`
-		Expression string `json:"expression"`
-	}
-
-	var expr Expression
-	exprTask := map[string]string{}
+	ExprTask := map[string]string{}
+	var expr ExpressionTask
+	//exprTask := map[string]string{}
 
 	if !slices.Contains(r.Header["Content-Type"], "application/json") {
 		http.Error(w, "Incorrect header", http.StatusUnprocessableEntity)
@@ -70,14 +70,18 @@ func (cs *calcStates) calculate(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	for {
-		//if len(expr.Id) == 0 {
-		_, found := exprTask[expr.Id]
+	//for {
+	if len(expr.Id) == 0 {
+		_, found := ExprTask[expr.Id]
 		if found {
-			exprTask[string(len(exprTask)+1)] = expr.Expression
-			expr.Id = string(len(exprTask)+1)
-			break
+			expr.Id = strconv.Itoa(len(ExprTask) + 1)
+			ExprTask[expr.Id] = expr.Expression
+		} else {
+			expr.Id = strconv.Itoa(len(ExprTask))
+			ExprTask[expr.Id] = expr.Expression
 		}
+	} else {
+		expr.Id = strconv.Itoa(len(ExprTask) + 1)
 	}
 
 	//expr.Id = fmt.Sprintf("%d", time.Now().UnixNano())
@@ -87,8 +91,9 @@ func (cs *calcStates) calculate(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusCreated)
-	//json.NewDecoder(w).Decode(&expr.Id)
+	json.NewEncoder(w).Encode(&expr.Id)
 }
 
 func (cs *calcStates) listAll(w http.ResponseWriter, r *http.Request) {
