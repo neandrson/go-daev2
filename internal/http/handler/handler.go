@@ -55,7 +55,7 @@ func Decorate(next http.Handler, ds ...Decorator) http.Handler {
 // Добавление вычисления арифметического выражения
 func (cs *calcStates) calculate(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
-	ExprTask := map[string]string{}
+	//ExprTask := map[string]string{}
 	var expr ExpressionTask
 	//exprTask := map[string]string{}
 
@@ -71,7 +71,7 @@ func (cs *calcStates) calculate(w http.ResponseWriter, r *http.Request) {
 	}
 
 	//for {
-	if len(expr.Id) == 0 {
+	/*if len(expr.Id) == 0 {
 		_, found := ExprTask[expr.Id]
 		if found {
 			expr.Id = strconv.Itoa(len(ExprTask) + 1)
@@ -82,7 +82,7 @@ func (cs *calcStates) calculate(w http.ResponseWriter, r *http.Request) {
 		}
 	} else {
 		expr.Id = strconv.Itoa(len(ExprTask) + 1)
-	}
+	}*/
 
 	//expr.Id = fmt.Sprintf("%d", time.Now().UnixNano())
 
