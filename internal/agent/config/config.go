@@ -18,6 +18,10 @@ var hostname = flag.String("h", "localhost", "The host name of the orchestrator"
 var port = flag.Int("p", 8081, "Port of the orchestrator")
 
 func init() {
+	if err := godotenv.Load(); err != nil {
+		log.Print("No .env file found")
+	}
+
 	flag.Parse()
 	if len(*hostname) == 0 {
 		*hostname = "localhost"
@@ -33,12 +37,6 @@ type Config struct {
 	ComputingPower int
 	Hostname       string
 	Port           int
-}
-
-func init() {
-	if err := godotenv.Load(); err != nil {
-		log.Print("No .env file found")
-	}
 }
 
 func NewConfigFromEnv() (*Config, error) {
