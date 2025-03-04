@@ -33,7 +33,7 @@ func (client *Client) GetTask() *task.Task {
 	resp, err := client.Do(req.WithContext(ctx))
 	if err != nil {
 		// fmt.Fprintln(os.Stderr, err)
-		time.Sleep(500)
+		time.Sleep(1000)
 		return nil
 	}
 	defer resp.Body.Close()
