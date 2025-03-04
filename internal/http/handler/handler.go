@@ -5,7 +5,6 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"log"
 	"net/http"
 	"slices"
 	"strconv"
@@ -85,7 +84,7 @@ func (cs *calcStates) calculate(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.WriteHeader(http.StatusCreated)
-	log.Println(&expr)
+	json.Encoder(w).Encode(expr.Id)
 }
 
 func (cs *calcStates) listAll(w http.ResponseWriter, r *http.Request) {
@@ -104,7 +103,7 @@ func (cs *calcStates) listAll(w http.ResponseWriter, r *http.Request) {
 func (cs *calcStates) listByID(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 
-	id := r.PathValue(":id")
+	id := r.PathValue("id")
 	expr, err := cs.CalcService.FindById(id)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusNotFound)
