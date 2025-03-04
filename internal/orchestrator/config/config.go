@@ -2,8 +2,11 @@ package config
 
 import (
 	"fmt"
+	"log"
 	"os"
 	"time"
+
+	"github.com/joho/godotenv"
 )
 
 const (
@@ -15,6 +18,12 @@ type Config struct {
 	Subtime time.Duration
 	Multime time.Duration
 	Divtime time.Duration
+}
+
+func init() {
+	if err := godotenv.Load(); err != nil {
+		log.Print("No .env file found")
+	}
 }
 
 func NewConfigFromEnv() (*Config, error) {
