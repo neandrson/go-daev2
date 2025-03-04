@@ -97,7 +97,6 @@ func (cs *CalcService) GetTask() *task.Task {
 	cs.locker.Lock()
 	defer cs.locker.Unlock()
 
-	//fmt.Println(cs.tasks)
 	if len(cs.tasks) == 0 {
 		return nil
 	}
@@ -208,6 +207,5 @@ func (cs *CalcService) extractTasksFromExpression(expr *Expression) int {
 		expr.Remove(op)
 	}
 
-	log.Println(taskCount)
 	return taskCount
 }
