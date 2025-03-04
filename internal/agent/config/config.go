@@ -42,7 +42,7 @@ type Config struct {
 func NewConfigFromEnv() (*Config, error) {
 	cp, err := strconv.Atoi(os.Getenv("COMPUTING_POWER"))
 	if err != nil || cp <= 0 {
-		return nil, fmt.Errorf(envErrorStr)
+		return nil, fmt.Errorf("%v", envErrorStr)
 	}
 	cfg := Config{
 		ComputingPower: cp,
