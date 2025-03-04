@@ -1,6 +1,6 @@
-Для связи tg: @vojan_najov
+Для связи tg: @neandrson
 
-# daec
+# go-daev2
 Распределенный вычислитель арифметических выражений.
 
 
@@ -19,7 +19,7 @@
 
 Склонируйте репозиторий
 ```sh
-git clone https://github.com/Vojan-Najov/daec.git
+git clone https://github.com/neandrson/go-daev2.git
 ```
 Перейдите в корневой каталог проекта.
 
@@ -81,7 +81,6 @@ PID процесса можно узнать, с помощью команды `
 curl --location 'localhost/api/v1/calculate' \
 --header 'Content-Type: application/json' \
 --data '{
-      "id": "уникалиный_идентификатор_выражения",
       "expression": "строка_с_выражением"
 }'
 ```
@@ -92,25 +91,12 @@ curl --location 'localhost/api/v1/calculate' \
 curl --location 'localhost/api/v1/calculate' \
 --header 'Content-Type: application/json' \
 --data '{
-      "id": "1",
       "expression": "1 + 2 + 3 * -4 - 20 / 5"
 }'
 ```
 
-или
-
-```sh
-curl --location 'localhost/api/v1/calculate' \
---header 'Content-Type: application/json' \
---data '{
-      "id": "abc",
-      "expression": "(100 - 50.137) / (14 - -3 * 5) - 34 * 2"
-}'
-```
-
 Возможные ошибки:
-- вы ввели пустое id или expression
-- вы ввели не уникальное id
+- вы ввели пустое expression
 - вы ввели некорректное арифметическое выражение
 
 ### Чтобы получить список всех выражений, используйте запрос:
@@ -127,19 +113,16 @@ curl --location 'localhost/api/v1/expressions'
             "id": "1",
             "status": "Error",
             "result": "",
-            "source": "1 - abc"
         },
         {
             "id": "2",
             "status": "Done",
             "result": "3",
-            "source": "1 + 2"
         },
         {
             "id": "3",
             "status": "In process",
-            "result": "",
-            "source": "1 + 2 - 3 + 4"
+            "result": ""
         }
     ]
 }
@@ -164,14 +147,57 @@ curl --location 'localhost/api/v1/expressions/{id}'
 
 ```sh
 curl --location 'localhost/api/v1/expressions/2'
+```
+```sh
 {
     "expression": {
         "id": "2",
         "status": "Done",
-        "result": "3",
-        "source": "1 + 2"
+        "result": "3"
     }
 }
+```
+или
+
+```sh
 curl --location 'localhost/api/v1/expressions/4'
 id "4" not found
+```
+
+#### Получение задачи для выполения.
+ 
+```
+curl --location 'localhost/internal/task'
+ 
+```
+
+Тело ответа
+
+```sh
+{
+  "task":
+    {
+      "id": <идентификатор задачи>,
+      "arg1": <имя первого аргумента>,
+      "arg2": <имя второго аргумента>,
+      "operation": <операция>,
+      "operation_time": <время выполнения операции>
+    }
+}
+ 
+```
+
+Например:
+
+```sh
+{
+  "task":
+    {
+      "id": <1>,
+      "arg1": <2>,
+      "arg2": <2>,
+      "operation": <+>,
+      "operation_time": <0>
+    }
+}
 ```
