@@ -3,8 +3,11 @@ package config
 import (
 	"flag"
 	"fmt"
+	"log"
 	"os"
 	"strconv"
+
+	"github.com/joho/godotenv"
 )
 
 const (
@@ -30,6 +33,12 @@ type Config struct {
 	ComputingPower int
 	Hostname       string
 	Port           int
+}
+
+func init() {
+	if err := godotenv.Load(); err != nil {
+		log.Print("No .env file found")
+	}
 }
 
 func NewConfigFromEnv() (*Config, error) {
