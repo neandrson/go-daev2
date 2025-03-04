@@ -69,7 +69,9 @@ func (cs *calcStates) calculate(w http.ResponseWriter, r *http.Request) {
 		Id         string `json:"id"`
 		Expression string `json:"expression"`
 	}
+
 	var expr Expression
+
 	err := json.NewDecoder(r.Body).Decode(&expr)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -78,13 +80,20 @@ func (cs *calcStates) calculate(w http.ResponseWriter, r *http.Request) {
 
 	expr.Id = fmt.Sprintf("%d", time.Now().UnixNano())
 
+	data := map[string]string{
+		"id": expr.Id,
+	}
 	if err = cs.CalcService.AddExpression(expr.Id, expr.Expression); err != nil {
 		http.Error(w, err.Error(), http.StatusUnprocessableEntity)
 		return
 	}
-
+	js, err := json.Marshal(data)
+	if err != nil {
+		http.Error(w, "The server could not process your request", http.StatusInternalServerError)
+	}
+	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusCreated)
-	json.Encoder(w).Encode(expr.Id)
+	w.Write([]byte(js))
 }
 
 func (cs *calcStates) listAll(w http.ResponseWriter, r *http.Request) {
