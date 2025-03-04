@@ -2,6 +2,7 @@ package service
 
 import (
 	"fmt"
+	"log"
 	"slices"
 	"sync"
 	"time"
@@ -52,6 +53,7 @@ func (cs *CalcService) AddExpression(id, expr string) error {
 	}
 
 	expression, err := NewExpression(id, expr)
+	log.Println(expression)
 	cs.exprTable[id] = expression
 	if err == nil && expression.Status == StatusInProcess {
 		cs.extractTasksFromExpression(expression)
@@ -206,5 +208,6 @@ func (cs *CalcService) extractTasksFromExpression(expr *Expression) int {
 		expr.Remove(op)
 	}
 
+	log.Println(taskCount)
 	return taskCount
 }
