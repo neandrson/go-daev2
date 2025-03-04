@@ -48,7 +48,7 @@ func NewApplication(cfg *config.Config) *Application {
 
 func (app *Application) Run(ctx context.Context) int {
 	defer close(app.results)
-	defer close(app.tasks)
+	//defer close(app.tasks)
 
 	for i := 0; i < app.cfg.ComputingPower; i++ {
 		go runWorker(app.tasks, app.results, app.ready)
