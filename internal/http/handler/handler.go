@@ -121,7 +121,7 @@ func (cs *calcStates) listByID(w http.ResponseWriter, r *http.Request) {
 func (cs *calcStates) sendTask(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 
-	newTask := cs.GetTask() //cs.CalcService.GetTask()
+	newTask := cs.CalcService.GetTask() //cs.CalcService.GetTask()
 	if newTask == nil {
 		http.Error(w, "no tasks", http.StatusNotFound)
 		return
