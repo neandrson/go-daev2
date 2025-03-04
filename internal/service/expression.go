@@ -75,6 +75,7 @@ type ExpressionList struct {
 
 func NewExpression(id, expr string) (*Expression, error) {
 	rpn, err := rpn.NewRPN(expr)
+
 	if err != nil {
 		expression := Expression{
 			List:   list.New(),
