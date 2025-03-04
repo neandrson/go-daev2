@@ -77,6 +77,8 @@ func (cs *calcStates) calculate(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	expr.Id = fmt.Sprintf("%d", time.Now().UnixNano())
+
 	if err = cs.CalcService.AddExpression(expr.Id, expr.Expression); err != nil {
 		http.Error(w, err.Error(), http.StatusUnprocessableEntity)
 		return
