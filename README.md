@@ -152,14 +152,14 @@ curl --location 'localhost/api/v1/expressions/{id}'
 Например,
 
 ```sh
-curl --location 'localhost/api/v1/expressions/2'
+curl --location 'localhost/api/v1/expressions/1741193931256739094'
 ```
 ```sh
 {
     "expression": {
-        "id": "2",
+        "id": "1741193931256739094",
         "status": "Done",
-        "result": "3"
+        "result": "1"
     }
 }
 ```
@@ -167,6 +167,8 @@ curl --location 'localhost/api/v1/expressions/2'
 
 ```sh
 curl --location 'localhost/api/v1/expressions/4'
+```
+```sh
 id "4" not found
 ```
 
