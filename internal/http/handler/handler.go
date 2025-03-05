@@ -89,7 +89,7 @@ func (cs *calcStates) calculate(w http.ResponseWriter, r *http.Request) {
 	}
 	js, err := json.Marshal(data)
 	if err != nil {
-		http.Error(w, "The server could not process your request", http.StatusInternalServerError)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusCreated)
