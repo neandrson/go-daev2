@@ -57,7 +57,7 @@ func loggingMiddleware(logger *log.Logger) func(next http.Handler) http.Handler 
 			// Завершение логирования после выполнения запроса
 			if r.URL.Path == "/internal/task" && r.Method == "GET" {
 				//	return
-				duration := 5 * time.Second
+				duration := time.Second
 				time.Sleep(duration)
 			}
 
