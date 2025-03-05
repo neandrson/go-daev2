@@ -2,8 +2,11 @@ package config
 
 import (
 	"fmt"
+	"log"
 	"os"
 	"time"
+
+	"github.com/joho/godotenv"
 )
 
 const (
@@ -18,6 +21,10 @@ type Config struct {
 }
 
 func NewConfigFromEnv() (*Config, error) {
+	if err := godotenv.Load(); err != nil {
+		log.Print("No .env file found")
+	}
+
 	at, err := time.ParseDuration(os.Getenv("TIME_ADDITION_MS") + "ms")
 	if err != nil || at < 0 {
 		return nil, fmt.Errorf(errMsgFmt, "TIME_ADDITION_MS")
