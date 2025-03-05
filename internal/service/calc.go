@@ -2,6 +2,7 @@ package service
 
 import (
 	"fmt"
+	"log"
 	"slices"
 	"sync"
 	"time"
@@ -138,6 +139,7 @@ func (cs *CalcService) PutResult(id int64, value float64) error {
 		timeout.Cancel()
 	}
 
+	log.Println(cs.taskTable[id])
 	_, found = cs.taskTable[id]
 	if !found {
 		return fmt.Errorf("task id %d not found", id)
