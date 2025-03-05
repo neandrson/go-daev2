@@ -242,3 +242,19 @@ curl --location 'localhost/internal/task'
     }
 }
 ```
+
+#### Прием результата обработки данных.
+
+```sh
+curl --location 'localhost/internal/task' \
+--header 'Content-Type: application/json' \
+--data '{
+  "id": 1,
+  "result": 2.5
+}'
+```
+Коды ответа:
+- 200 - успешно записан результат
+- 404 - нет такой задачи
+- 422 - невалидные данные
+- 500 - что-то пошло не так
