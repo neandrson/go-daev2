@@ -3,11 +3,8 @@ package config
 import (
 	"flag"
 	"fmt"
-	"log"
 	"os"
 	"strconv"
-
-	"github.com/joho/godotenv"
 )
 
 const (
@@ -18,10 +15,6 @@ var hostname = flag.String("h", "localhost", "The host name of the orchestrator"
 var port = flag.Int("p", 8081, "Port of the orchestrator")
 
 func init() {
-	if err := godotenv.Load(); err != nil {
-		log.Print("No .env file found")
-	}
-
 	flag.Parse()
 	if len(*hostname) == 0 {
 		*hostname = "localhost"
