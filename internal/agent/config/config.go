@@ -3,8 +3,11 @@ package config
 import (
 	"flag"
 	"fmt"
+	"log"
 	"os"
 	"strconv"
+
+	"github.com/joho/godotenv"
 )
 
 const (
@@ -33,6 +36,10 @@ type Config struct {
 }
 
 func NewConfigFromEnv() (*Config, error) {
+	if err := godotenv.Load(); err != nil {
+		log.Print("No .env file found")
+	}
+
 	cp, err := strconv.Atoi(os.Getenv("COMPUTING_POWER"))
 	if err != nil || cp <= 0 {
 		return nil, fmt.Errorf("%v", envErrorStr)
