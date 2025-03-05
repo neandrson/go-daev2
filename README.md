@@ -88,10 +88,10 @@ curl --location 'localhost/api/v1/calculate' \
 Например:
 
 ```sh
-curl --location 'localhost/api/v1/calculate' \
+curl --location 'http://localhost:8081/api/v1/calculate' \
 --header 'Content-Type: application/json' \
 --data '{
-      "expression": "1 + 2 + 3 * -4 - 20 / 5"
+    "expression": "2+2*2"
 }'
 ```
 
