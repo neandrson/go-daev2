@@ -18,7 +18,7 @@
 ## Сборка и запуск
 
 Склонируйте репозиторий
-```sh
+```go
 git clone https://github.com/neandrson/go-daev2.git
 ```
 Перейдите в корневой каталог проекта.
@@ -26,7 +26,7 @@ git clone https://github.com/neandrson/go-daev2.git
 ### Docker
 
 Собрать приложение состоящее из оркестратора и трех агентов:
-```sh
+```go
 docker compose build && docker compose up
 ```
 
@@ -35,12 +35,12 @@ docker compose build && docker compose up
 
 
 Для того, чтобы запустить контейнеры в фоновом режиме:
-```sh
+```go
 docker compose up -d
 ```
 
 Для того, чтобы остановить запущенные контейнеры  в фоновом режиме:
-```sh
+```go
 docker compose down
 ```
 или `CTRC-C`, если контейнеры запущены не в фоне.
@@ -50,11 +50,11 @@ docker compose down
 
 ### Linux
   - Собрать и запустить оркестратор командой:
-  ```sh
+  ```go
   make orchestrator && source scripts/setenv.sh && ./orchestrator
   ```
   - Собрать и запустить agent командой:
-  ```sh
+  ```go
   make agent && source scripts/setenv.sh && ./agent
   ```
 
@@ -62,7 +62,7 @@ docker compose down
 Вы также можете запустить процессы в фоновом режиме, используя символ `&`.
 Потоки вывода следует перенаправить в файл, например `/dev/null`.
 Например, чтобы запустить агент в фоновом режиме:
-  ```sh
+  ```go
   make agent && source scripts/setenv.sh && ./agent 2>1 >/dev/null &
   ```
 В таком случае не забудьте, остановить процессы, командой `kill -s SIGINT proccess_id`.
