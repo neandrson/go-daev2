@@ -6,6 +6,7 @@ import (
 	"os"
 	"os/signal"
 
+	"github.com/joho/godotenv"
 	"github.com/neandrson/go-daev2/internal/http/server"
 	"github.com/neandrson/go-daev2/internal/orchestrator/config"
 )
@@ -21,6 +22,10 @@ func NewApplication(cfg *config.Config) *Application {
 }
 
 func (orch *Application) Run(ctx context.Context) int {
+	if err := godotenv.Load(); err != nil {
+		log.Print("No .env file found")
+	}
+
 	logger := log.New(os.Stderr, "Orchestrator: ", log.Ldate|log.Ltime|log.Lmsgprefix)
 
 	shutDownFunc, err := server.Run(ctx, logger, orch.cfg)
