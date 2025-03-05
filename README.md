@@ -111,28 +111,27 @@ curl --location 'localhost/api/v1/expressions'
 {
     "expressions": [
         {
-            "id": "1741193673637228189",
-            "status": "Done",
-            "result": "4"
-        },
-        {
-            "id": "1741193682948294235",
-            "status": "Done",
-            "result": "6"
-        },
-        {
-            "id": "1741193691013847919",
-            "status": "Done",
-            "result": "3"
-        },
-        {
-            "id": "1741193697012466671",
+            "id": "1741193931256739094",
             "status": "Done",
             "result": "1"
+        },
+        {
+            "id": "1741193935454970287",
+            "status": "Error",
+            "result": ""
+        },
+        {
+            "id": "1741193939838165597",
+            "status": "Error",
+            "result": ""
+        },
+        {
+            "id": "1741193966984372546",
+            "status": "In process",
+            "result": ""
         }
     ]
 }
-
 ```
 
 Всего возможно три статуса:
