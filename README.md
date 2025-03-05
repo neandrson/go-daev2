@@ -167,9 +167,23 @@ curl --location 'localhost/api/v1/expressions'
 ```sh
 curl --location 'localhost/api/v1/expressions/{id}'
 ```
+Тело ответа
+```sh
+{
+    "expression":
+        {
+            "id": <идентификатор выражения>,
+            "status": <статус вычисления выражения>,
+            "result": <результат выражения>
+        }
+}
+```
+Коды ответа:
+- 200 - успешно получено выражение
+- 404 - нет такого выражения
+- 500 - что-то пошло не так
 
 Например,
-
 ```sh
 curl --location 'localhost/api/v1/expressions/1741193931256739094'
 ```
@@ -191,20 +205,13 @@ curl --location 'localhost/api/v1/expressions/4'
 ```sh
 id "4" not found
 ```
-Коды ответа:
-- 200 - успешно получено выражение
-- 404 - нет такого выражения
-- 500 - что-то пошло не так
 
 #### Получение задачи для выполения.
  
 ```sh
 curl --location 'localhost/internal/task'
- 
 ```
-
 Тело ответа
-
 ```sh
 {
   "task":
@@ -216,8 +223,11 @@ curl --location 'localhost/internal/task'
       "operation_time": <время выполнения операции>
     }
 }
- 
 ```
+Коды ответа:
+- 200 - успешно получена задача
+- 404 - нет задачи
+- 500 - что-то пошло не так
 
 Например:
 
