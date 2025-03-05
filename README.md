@@ -116,11 +116,6 @@ curl --location 'localhost/api/v1/expressions'
             "result": "1"
         },
         {
-            "id": "1741193935454970287",
-            "status": "Error",
-            "result": ""
-        },
-        {
             "id": "1741193939838165597",
             "status": "Error",
             "result": ""
