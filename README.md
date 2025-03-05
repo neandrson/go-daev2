@@ -124,6 +124,11 @@ curl --location 'localhost/api/v1/expressions'
             "id": "1741193966984372546",
             "status": "In process",
             "result": ""
+        },
+        {
+            "id": "1741194091277399012",
+            "status": "Done",
+            "result": "-Inf"
         }
     ]
 }
