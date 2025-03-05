@@ -18,7 +18,7 @@
 ## Сборка и запуск
 
 Склонируйте репозиторий
-```go
+```sh
 git clone https://github.com/neandrson/go-daev2.git
 ```
 Перейдите в корневой каталог проекта.
@@ -26,7 +26,7 @@ git clone https://github.com/neandrson/go-daev2.git
 ### Docker
 
 Собрать приложение состоящее из оркестратора и трех агентов:
-```go
+```sh
 docker compose build && docker compose up
 ```
 
@@ -35,12 +35,12 @@ docker compose build && docker compose up
 
 
 Для того, чтобы запустить контейнеры в фоновом режиме:
-```go
+```sh
 docker compose up -d
 ```
 
 Для того, чтобы остановить запущенные контейнеры  в фоновом режиме:
-```go
+```sh
 docker compose down
 ```
 или `CTRC-C`, если контейнеры запущены не в фоне.
@@ -50,11 +50,11 @@ docker compose down
 
 ### Linux
   - Собрать и запустить оркестратор командой:
-  ```go
+  ```sh
   make orchestrator && source scripts/setenv.sh && ./orchestrator
   ```
   - Собрать и запустить agent командой:
-  ```go
+  ```sh
   make agent && source scripts/setenv.sh && ./agent
   ```
 
@@ -62,7 +62,7 @@ docker compose down
 Вы также можете запустить процессы в фоновом режиме, используя символ `&`.
 Потоки вывода следует перенаправить в файл, например `/dev/null`.
 Например, чтобы запустить агент в фоновом режиме:
-  ```go
+  ```sh
   make agent && source scripts/setenv.sh && ./agent 2>1 >/dev/null &
   ```
 В таком случае не забудьте, остановить процессы, командой `kill -s SIGINT proccess_id`.
@@ -88,7 +88,7 @@ curl --location 'localhost/api/v1/calculate' \
 Например:
 
 ```sh
-curl --location 'http://localhost:8081/api/v1/calculate' \
+curl --location 'http://localhost/api/v1/calculate' \
 --header 'Content-Type: application/json' \
 --data '{
     "expression": "2+2*2"
@@ -107,26 +107,32 @@ curl --location 'localhost/api/v1/expressions'
 ```
 
 Пример:
-```
+```sh
 {
     "expressions": [
         {
-            "id": "1",
-            "status": "Error",
-            "result": "",
-        },
-        {
-            "id": "2",
+            "id": "1741193673637228189",
             "status": "Done",
-            "result": "3",
+            "result": "4"
         },
         {
-            "id": "3",
-            "status": "In process",
-            "result": ""
+            "id": "1741193682948294235",
+            "status": "Done",
+            "result": "6"
+        },
+        {
+            "id": "1741193691013847919",
+            "status": "Done",
+            "result": "3"
+        },
+        {
+            "id": "1741193697012466671",
+            "status": "Done",
+            "result": "1"
         }
     ]
 }
+
 ```
 
 Всего возможно три статуса:
