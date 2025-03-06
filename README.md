@@ -22,6 +22,9 @@
 git clone https://github.com/neandrson/go-daev2.git
 ```
 Перейдите в корневой каталог проекта.
+```sh
+cd go-daev2
+```
 
 ### Docker
 
