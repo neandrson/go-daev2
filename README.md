@@ -21,7 +21,7 @@
 ```sh
 git clone https://github.com/neandrson/go-daev2.git
 ```
-Перейдите в корневой каталог проекта.
+Перейдите в корневой каталог проекта
 ```sh
 cd go-daev2
 ```
@@ -209,7 +209,7 @@ curl --location 'localhost/api/v1/expressions/4'
 id "4" not found
 ```
 
-#### Получение задачи для выполения.
+#### Получение задачи для выполения
  
 ```sh
 curl --location 'localhost/internal/task'
@@ -246,7 +246,7 @@ curl --location 'localhost/internal/task'
 }
 ```
 
-#### Прием результата обработки данных.
+#### Прием результата обработки данных
 
 ```sh
 curl --location 'localhost/internal/task' \
