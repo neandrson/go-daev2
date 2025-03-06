@@ -57,11 +57,10 @@ func loggingMiddleware(logger *log.Logger) func(next http.Handler) http.Handler 
 			// Завершение логирования после выполнения запроса
 			if r.URL.Path == "/internal/task" && r.Method == "GET" {
 
-				duration := time.Since(start)
-				logger.Printf("HTTP request - method: %s, path: %s, duration: %d\n", r.Method, r.URL.Path, duration)
+				//duration := time.Since(start)
+				//logger.Printf("HTTP request - method: %s, path: %s, duration: %d\n", r.Method, r.URL.Path, duration)
 				return
 			}
-
 			duration := time.Since(start)
 			logger.Printf("HTTP request - method: %s, path: %s, duration: %d\n", r.Method, r.URL.Path, duration)
 		})
