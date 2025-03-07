@@ -4,7 +4,68 @@
 Распределенный вычислитель арифметических выражений.
 
 
-## Проект
+# Проект
+
+## Структура проекта
+
+```markdown
+calculate_project
+
+├── README.md                  # Описание проекта и инструкции
+├── .env                       # Конфигурация
+├── .gitignore
+├── docker-compose.yaml
+├── go.mod
+├── go.sum
+├── Makefile
+├── cmd                        # Исполняемые файлы
+│   ├── agent                  # Код агента (вычислителя)
+│   │   ├── main.go            # Точка входа для агента
+│   └── orchestrator           # Код оркестратора (сервера)
+│       ├── main.go            # Точка входа для оркестратора
+├── internal                   # Внутренняя логика приложения
+│   ├── agent
+│   │   ├── application        
+│   │   │   └── application.go
+│   │   └── config
+│   │       └── config.go 
+│   ├── http
+│   │   ├── client
+│   │   │   └── clent.go
+│   │   ├── handler
+│   │   │   └── handlers.go    # Обработчики HTTP-запросов
+│   │   └── server
+│   │       └── server.go      # Настройка и запуск HTTP-сервера
+│   ├── orchestrator
+│   │   ├── application
+│   │   |   └── application.go
+│   │   └── config
+│   │       └── config.go
+│   ├── result
+│   │   └── result.go
+│   ├── service                # Пакет для вычисления выражений
+│   │   ├── calc.go            # Логика вычисления арифметических выражений
+│   │   └── expression.go
+│   └── task
+│       └── task.go
+├── Diagram.png
+├── pkg                        # Публичные пакеты
+│   ├── rpn
+│   │   ├── rpn.go
+│   │   └── rpn_test.go
+│   ├── stack            
+│   │   ├── stack.go            
+│   │   └── stack_test.go
+│   └── timeout
+│       └── timeout.go
+└── skripts
+    ├── agent
+    │   └── Dockerfile
+    ├── orchestrator
+    │   └── Dockerfile
+    └── setenv.sh
+
+```
 
 Проект состоит из 2 элементов:
 
